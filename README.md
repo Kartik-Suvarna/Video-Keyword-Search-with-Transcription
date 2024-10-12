@@ -3,10 +3,12 @@
 This script processes video files by extracting their audio, transcribing the speech to text, and searching for a user-specified keyword within the transcription. If the keyword is found, the corresponding video is moved to a destination folder. It also supports resetting all videos back to the source folder without reprocessing.
 
 ## Table of Contents
+
 - [Installation](#installation)
 - [How It Works](#how-it-works)
 - [Features](#features)
 - [Command Line Usage](#command-line-usage)
+- [Enabling Virtual Environment in `venv`](#enabling-virtual-environment-in-venv)
 - [Folder Structure](#folder-structure)
 - [Code Workflow](#code-workflow)
 - [Troubleshooting](#troubleshooting)
@@ -14,6 +16,7 @@ This script processes video files by extracting their audio, transcribing the sp
 ## Installation
 
 ### Prerequisites
+
 - Python 3.x
 - The following Python libraries must be installed:
   - `moviepy`
@@ -21,6 +24,7 @@ This script processes video files by extracting their audio, transcribing the sp
   - `pydub` (optional, required for advanced audio manipulation)
 
 ### Installing Dependencies
+
 To install the required libraries, run the following command:
 
 ```bash
@@ -52,14 +56,17 @@ The script performs the following tasks:
 ### Run the Script
 
 To run the script and perform the full process (audio extraction, transcription, keyword search), simply use:
+
 ```bash
 python your_script.py
 ```
 
 You will be prompted to enter a keyword to search for within the transcriptions:
-```bash 
+
+```bash
 You will be prompted to enter a keyword to search for within the transcriptions:
 ```
+
 The script will then:
 
 - Extract audio from each video.
@@ -70,11 +77,64 @@ The script will then:
 ### Reset Videos to the Source Folder
 
 To reset and move all videos back from the `dest` folder to the `videos` folder, use the `--reset` flag:
+
 ```bash
 python your_script.py --reset
 ```
 
 This will move all videos from `dest` back to `videos` without performing any transcription or keyword search.
+
+## Enabling Virtual Environment in `venv`
+
+To use a virtual environment in your project, follow these steps:
+
+1. **Navigate to Your Project Directory**: Open your command line interface (CLI) and change to the directory where your project is located.
+
+```bash
+cd path/to/your/project
+```
+
+2. **Create a Virtual Environment**: If you haven't already created a virtual environment, you can do so using the following command:
+
+```bash
+python -m venv venv
+```
+
+- This will create a new directory named `venv` in your project folder, which contains the Python executable and a local copy of the `pip` package manager.
+
+3. **Activate the Virtual Environment**:
+
+- **On Windows**:
+
+```bash
+venv\Scripts\activate
+```
+
+**On macOS and Linux**:
+
+```bash
+source venv/bin/activate
+```
+
+- Once activated, you should see the name of your virtual environment (e.g., `(venv)`) in your command prompt, indicating that you are now operating within that virtual environment.
+
+4. **Install Required Packages**: With the virtual environment activated, you can install your project dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+5. **Deactivate the Virtual Environment**: When you're done working in the virtual environment, you can deactivate it by simply running:
+
+```bash
+deactivate
+```
+
+### Benefits of Using a Virtual Environment
+
+- **Isolation**: Keeps dependencies required by different projects in separate places, preventing version conflicts.
+- **Controlled Environment**: Makes it easy to replicate the environment on different machines.
+- **Easier Collaboration**: When you share your project, others can recreate the same environment using your `requirements.txt` file.
 
 ## Folder Structure
 
@@ -82,18 +142,18 @@ The following folder structure is expected:
 
 project_root/
 │
-├── videos/              # Source folder containing all the video files (.mp4)
-│   ├── video1.mp4      # Sample video for testing purposes
-│   ├── video2.mp4      # Sample video for testing purposes
-│   └── ...              # Additional sample videos can be added here
+├── videos/ # Source folder containing all the video files (.mp4)
+│ ├── video1.mp4 # Sample video for testing purposes
+│ ├── video2.mp4 # Sample video for testing purposes
+│ └── ... # Additional sample videos can be added here
 │
-├── dest/                # Destination folder for videos where keyword is found
-│   └── (empty initially)
+├── dest/ # Destination folder for videos where keyword is found
+│ └── (empty initially)
 │
-├── transcriptions/      # Folder for storing transcriptions (.txt)
-│   └── (generated automatically)
+├── transcriptions/ # Folder for storing transcriptions (.txt)
+│ └── (generated automatically)
 │
-└── your_script.py       # The Python script (this script)
+└── your_script.py # The Python script (this script)
 
 The script will create the `transcriptions` folder if it does not already exist.
 
@@ -104,13 +164,13 @@ The script will create the `transcriptions` folder if it does not already exist.
 1. **Initialization**: The script ensures the `videos`, `dest`, and `transcriptions` folders exist.
 2. **Audio Extraction**: For each `.mp4` file in the `videos` folder, the script extracts the audio track and saves it as a `.wav` file.
 3. **Transcription**:
-    - The audio is split into chunks (default max chunk size is 60 seconds) to avoid overloading the transcription service.
-    - Each chunk is sent to Google's Speech Recognition API for transcription.
-    - If transcription fails for a chunk (e.g., poor audio quality), the chunk is skipped.
+   - The audio is split into chunks (default max chunk size is 60 seconds) to avoid overloading the transcription service.
+   - Each chunk is sent to Google's Speech Recognition API for transcription.
+   - If transcription fails for a chunk (e.g., poor audio quality), the chunk is skipped.
 4. **Keyword Search**:
-    - The script prompts the user for a keyword.
-    - The keyword is searched within the transcription for each video.
-    - If the keyword is found, the video is moved to the `dest` folder.
+   - The script prompts the user for a keyword.
+   - The keyword is searched within the transcription for each video.
+   - If the keyword is found, the video is moved to the `dest` folder.
 5. **Reset Option**: If the `--reset` flag is passed, all videos are moved from `dest` back to the `videos` folder without performing transcription or keyword search.
 
 ## Troubleshooting
