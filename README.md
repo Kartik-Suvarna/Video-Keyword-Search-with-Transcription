@@ -24,7 +24,7 @@ This script processes video files by extracting their audio, transcribing the sp
 To install the required libraries, run the following command:
 
 ```bash
-pip install moviepy SpeechRecognition pydub
+pip install -r requirements.txt
 ```
 
 ## How It Works
